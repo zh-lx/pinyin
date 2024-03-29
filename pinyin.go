@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 type WordData struct {
@@ -19,13 +20,25 @@ type RecognizeResult struct {
 	Result []WordData
 }
 
+func GetCurrentFilePath() (string, error) {
+	// 获取调用方的文件路径
+	_, callerFile, _, ok := runtime.Caller(1)
+	if !ok {
+		return "", fmt.Errorf("Failed to get caller information")
+	}
+
+	// 提取文件所在的目录路径
+	dirPath := filepath.Dir(callerFile)
+	return dirPath, nil
+}
+
 func getData() {
-	currentDir, err := os.Getwd()
+	dirPath, err := GetCurrentFilePath()
 	if err != nil {
-		fmt.Println("Failed to get current working directory:", err)
+		fmt.Println("Failed to get current file path:", err)
 		return
 	}
-	absolutePath := filepath.Join(currentDir, "data.json")
+	absolutePath := filepath.Join(dirPath, "data.json")
 	// 读取 JSON 文件
 	file, err := os.Open(absolutePath)
 	if err != nil {
