@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 type WordData struct {
@@ -19,8 +20,14 @@ type RecognizeResult struct {
 }
 
 func getData() {
+	currentDir, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Failed to get current working directory:", err)
+		return
+	}
+	absolutePath := filepath.Join(currentDir, "data.json")
 	// 读取 JSON 文件
-	file, err := os.Open("data.json")
+	file, err := os.Open(absolutePath)
 	if err != nil {
 		fmt.Println("Failed to open JSON file:", err)
 		return
