@@ -32,7 +32,9 @@ type RecognizeResult struct {
 func main() {
 	// 待识别的拼音数组
 	pinyinList := []string{"yisi", "baohupinghe", "notpinyinaaa"}
-	var result RecognizeResult[]
+	var result []RecognizeResult
 	result= pinyin.Recognize(pinyinList)
+	
+	fmt.Println(result)
 }
 ```
