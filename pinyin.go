@@ -77,3 +77,42 @@ func Recognize(pinyinList []string) []RecognizeResult {
 	}
 	return result
 }
+
+func RecognizeDetail(pinyinList []string) []RecognizeResult {
+	if jsonData == nil {
+		getData()
+	}
+	result := make([]RecognizeResult, 0)
+	for _, pinyin := range pinyinList {
+		if jsonData[pinyin] != nil {
+			result = append(result, RecognizeResult{pinyin, jsonData[pinyin]})
+		}
+	}
+	return result
+}
+
+func RecognizePinyin(pinyinList []string) []string {
+	if jsonData == nil {
+		getData()
+	}
+	result := make([]string, 0)
+	for _, pinyin := range pinyinList {
+		if jsonData[pinyin] != nil {
+			result = append(result, pinyin)
+		}
+	}
+	return result
+}
+
+func RecognizeNonPinyin(pinyinList []string) []string {
+	if jsonData == nil {
+		getData()
+	}
+	result := make([]string, 0)
+	for _, pinyin := range pinyinList {
+		if jsonData[pinyin] == nil {
+			result = append(result, pinyin)
+		}
+	}
+	return result
+}
